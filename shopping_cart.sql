@@ -1,12 +1,12 @@
 CREATE TABLE member_shopping_cart (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    member_id INT NOT NULL,
+    member_id BIGINT(20) NOT NULL, -- 修改 member_id 字段类型为 BIGINT(20)
     product_id INT NOT NULL,
-    suffix CHAR(3) NOT NULL, -- 新增的字段，设置为 NOT NULL
+    suffix CHAR(3) NOT NULL,
     quantity INT NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (member_id) REFERENCES ministore_members(id),
+    FOREIGN KEY (member_id) REFERENCES ministore_members(id)
 );
 
 CREATE TABLE visitor_shopping_cart (
@@ -16,5 +16,5 @@ CREATE TABLE visitor_shopping_cart (
     suffix CHAR(3) NOT NULL, -- 新增的字段，设置为 NOT NULL
     quantity INT NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
