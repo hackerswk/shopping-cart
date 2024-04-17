@@ -7,7 +7,6 @@ CREATE TABLE member_shopping_cart (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (member_id) REFERENCES ministore_members(id),
-    FOREIGN KEY (product_id) REFERENCES site_products(product_id)
 );
 
 CREATE TABLE visitor_shopping_cart (
@@ -18,5 +17,4 @@ CREATE TABLE visitor_shopping_cart (
     quantity INT NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES site_products(product_id)
 );
