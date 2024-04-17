@@ -35,20 +35,22 @@ class MemberShoppingCart
      *
      * @param int $memberId Member ID
      * @param int $productId Product ID
+     * @param string $suffix Suffix
      * @param int $quantity Quantity of the product
      * @return bool True on success, False on failure
      */
-    public function addProductToCart($memberId, $productId, $quantity = 1)
+    public function addProductToCart($memberId, $productId, $suffix, $quantity = 1)
     {
         try {
             $sql = <<<EOF
-                INSERT INTO member_shopping_cart (member_id, product_id, quantity)
-                VALUES (:member_id, :product_id, :quantity)
+            INSERT INTO member_shopping_cart (member_id, product_id, suffix, quantity)
+            VALUES (:member_id, :product_id, :suffix, :quantity)
 EOF;
 
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':member_id', $memberId, PDO::PARAM_INT);
             $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+            $stmt->bindParam(':suffix', $suffix, PDO::PARAM_STR); // Bind the suffix parameter
             $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -85,18 +87,20 @@ EOF;
      *
      * @param int $memberId Member ID
      * @param int $productId Product ID
+     * @param string $suffix Suffix
      * @return bool True on success, False on failure
      */
-    public function removeProductFromCart($memberId, $productId)
+    public function removeProductFromCart($memberId, $productId, $suffix)
     {
         try {
             $sql = <<<EOF
-                DELETE FROM member_shopping_cart WHERE member_id = :member_id AND product_id = :product_id
+            DELETE FROM member_shopping_cart WHERE member_id = :member_id AND product_id = :product_id AND suffix = :suffix
 EOF;
 
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':member_id', $memberId, PDO::PARAM_INT);
             $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+            $stmt->bindParam(':suffix', $suffix, PDO::PARAM_STR); // Bind the suffix parameter
             return $stmt->execute();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
