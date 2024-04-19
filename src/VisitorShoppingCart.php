@@ -129,4 +129,35 @@ EOF;
             return false;
         }
     }
+
+    /**
+     * Update the quantity of a product in the visitor's shopping cart.
+     *
+     * @param string $visitorId Visitor ID
+     * @param int $productId Product ID
+     * @param string $suffix Suffix
+     * @param int $quantity New quantity of the product
+     * @return bool True on success, False on failure
+     */
+    public function updateProductQuantity($visitorId, $productId, $suffix, $quantity)
+    {
+        try {
+            $sql = <<<EOF
+                UPDATE visitor_shopping_cart
+                SET quantity = :quantity
+                WHERE visitor_id = :visitor_id AND product_id = :product_id AND suffix = :suffix
+EOF;
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':visitor_id', $visitorId, PDO::PARAM_STR);
+            $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+            $stmt->bindParam(':suffix', $suffix, PDO::PARAM_STR);
+            $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
 }
