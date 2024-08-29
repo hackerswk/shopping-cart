@@ -298,4 +298,9 @@ EOF;
         }
     }
 
+    public function test()
+    {
+        echo "test";
+    }
+
 }
