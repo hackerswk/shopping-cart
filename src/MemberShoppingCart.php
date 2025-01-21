@@ -127,25 +127,22 @@ EOF;
     /**
      * Retrieve all products in the member's shopping cart.
      *
+     * @param int $siteId Site ID
      * @param int $visitorId Visitor ID
-     * @param int $memberId Member ID
+     * @param int $memberId Member ID, Default = 0
      * @return array Array of product data in the member's shopping cart
      */
-    public function getProductsInCart($visitorId, $memberId)
+    public function getProductsInCart($siteId, $visitorId, $memberId = 0)
     {
         try {
-            $sql = <<<EOF
-                SELECT * FROM member_shopping_cart WHERE site_id = :site_id AND member_id = :member_id
-EOF;
-            if ($memberId == 0) {
-                $sql = <<<EOF
-                    SELECT * FROM member_shopping_cart WHERE site_id = :site_id AND visitor_id = :visitor_id
-EOF;
-            }
+            $sql = 'SELECT * FROM member_shopping_cart WHERE site_id = :site_id ';
+            $sql.= ($memberId == 0)
+                ? 'AND visitor_id = :visitor_id'
+                : 'AND member_id = :member_id';
 
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':site_id', $site_id, PDO::PARAM_INT);
-            if ($memberId == 0) {
+            if ($memberId != 0) {
                 $stmt->bindParam(':member_id', $memberId, PDO::PARAM_INT);
             } else {
                 $stmt->bindParam(':visitor_id', $visitorId, PDO::PARAM_INT);
