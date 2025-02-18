@@ -141,7 +141,7 @@ EOF;
                 : 'AND member_id = :member_id';
 
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':site_id', $site_id, PDO::PARAM_INT);
+            $stmt->bindParam(':site_id', $siteId, PDO::PARAM_INT);
             if ($memberId != 0) {
                 $stmt->bindParam(':member_id', $memberId, PDO::PARAM_INT);
             } else {
