@@ -156,6 +156,27 @@ EOF;
     }
 
     /**
+     * Remove a product from the member's shopping cart by id.
+     *
+     * @param int $id item ID
+     * @return bool True on success, False on failure
+     */
+    public function removeProductFromCartById($id)
+    {
+        try {
+            $sql = <<<EOF
+            DELETE FROM member_shopping_cart WHERE id = :id
+EOF;
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    /**
      * Remove a product from the member's shopping cart.
      *
      * @param int $memberId Member ID
